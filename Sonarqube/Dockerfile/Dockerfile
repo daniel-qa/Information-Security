@@ -45,4 +45,6 @@ ADD sonarqube-9.8.0.63668.zip /opt/sonarqube/sonarqube-9.8.0.63668.zip
 RUN unzip -d /opt/sonarqube   /opt/sonarqube/sonarqube-9.8.0.63668.zip
 RUN chown -R 1000:1000 /opt/sonarqube/sonarqube-9.8.0.63668
 
+# Install SonarScanner
+
 #WORKDIR /opt/sonarqube
