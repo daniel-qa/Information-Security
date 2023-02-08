@@ -1,3 +1,4 @@
+
 FROM ubuntu:20.04  AS builder
 
 # 安装依赖
@@ -7,13 +8,21 @@ RUN apt-get install wget -y && apt-get install unzip -y
 # Install Tools
 RUN sudo apt-get install git -y  && apt-get install nano -y
 
+# Install tar xz 
+RUN sudo apt-get install xz-utils -y
+
 # Install JAVA
+RUN sudo apt-get install curl -y
 RUN DEBIAN_FRONTEND=noninteractive apt install default-jdk -y
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+RUN sudo apt-get install nodejs
 
 
 FROM builder AS build1
 
-# ADD USER sonar
+# ADD USER sonar 
 
 # build参数
 ARG user=sonar
@@ -46,5 +55,13 @@ RUN unzip -d /opt/sonarqube   /opt/sonarqube/sonarqube-9.8.0.63668.zip
 RUN chown -R 1000:1000 /opt/sonarqube/sonarqube-9.8.0.63668
 
 # Install SonarScanner
+#RUN https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+ADD sonar-scanner-cli-4.7.0.2747-linux.zip /opt/sonar-scanner-cli-4.7.0.2747-linux.zip
+RUN unzip -d /opt /opt/sonar-scanner-cli-4.7.0.2747-linux.zip
+RUN chown -R 1000:1000 /opt/sonar-scanner-4.7.0.2747-linux
+
+# Add Path Environment
+RUN echo "export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin" >> /etc/profile
+RUN /bin/bash -c "source /etc/profile"
 
 #WORKDIR /opt/sonarqube
