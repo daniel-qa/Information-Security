@@ -61,7 +61,6 @@ RUN unzip -d /opt /opt/sonar-scanner-cli-4.7.0.2747-linux.zip
 RUN chown -R 1000:1000 /opt/sonar-scanner-4.7.0.2747-linux
 
 # Add Path Environment
-RUN echo "export PATH=$PATH:/opt/sonar-scanner-4.7.0.2747-linux/bin" >> /etc/profile
-RUN /bin/bash -c "source /etc/profile"
+ENV PATH="${PATH}:/opt/sonar-scanner-4.7.0.2747-linux/bin"
 
 #WORKDIR /opt/sonarqube
